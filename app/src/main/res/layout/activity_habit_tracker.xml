@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:fillViewport="true"
+    tools:context=".HabitTrackerActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <!-- Logo Container -->
+        <LinearLayout
+            android:id="@+id/logo_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/login_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread">
+
+            <!-- App Logo -->
+            <ImageView
+                android:id="@+id/app_logo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/logo"
+                android:elevation="8dp"
+                android:padding="24dp" />
+
+            <!-- App Name -->
+
+            <!-- Tagline -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/your_personal_wellness_companion"
+                android:textColor="#E8F5E8"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <!-- Login Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/login_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo_container">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="32dp">
+
+                <!-- Welcome Text -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/welcome_back"
+                    android:textColor="@color/text_primary"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="32dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/sign_in_to_continue_your_wellness_journey"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp" />
+
+                <!-- Email Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/email_input_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxStrokeColor="@color/primary_green"
+                    app:boxStrokeWidth="2dp"
+                    app:hintTextColor="@color/primary_green"
+                    app:startIconDrawable="@drawable/ic_email"
+                    app:startIconTint="@color/primary_green">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
+                        android:hint="Email Address"
+                        android:inputType="textEmailAddress"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Password Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_input_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxStrokeColor="@color/primary_green"
+                    app:boxStrokeWidth="2dp"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/primary_green"
+                    app:hintTextColor="@color/primary_green"
+                    app:startIconDrawable="@drawable/ic_lock"
+                    app:startIconTint="@color/primary_green">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Forgot Password -->
+                <TextView
+                    android:id="@+id/forgot_password_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="24dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="8dp"
+                    android:text="@string/forgot_password"
+                    android:textColor="@color/primary_green"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- Login Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/login_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/button_rounded_green"
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/sign_in"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@null" />
+
+                <!-- Divider -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="24dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/lightGray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/or"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/lightGray" />
+
+                </LinearLayout>
+
+                <!-- Google Sign In Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/google_signin_button"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="268dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/button_outline_green"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/continue_with_google"
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp"
+                    app:backgroundTint="@null"
+                    app:icon="@drawable/ic_google"
+                    app:iconGravity="textStart"
+                    app:iconPadding="12dp"
+                    app:iconTint="@null" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Bottom Container -->
+        <LinearLayout
+            android:id="@+id/bottom_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_card">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="@string/don_t_have_an_account"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/signup_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:fontFamily="@font/poppins_bold"
+                android:padding="8dp"
+                android:text="@string/sign_up"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
