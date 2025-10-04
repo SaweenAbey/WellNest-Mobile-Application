@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    tools:context=".fragments.TodoFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="24dp">
+
+        <!-- Greeting Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:id="@+id/tvTimeGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Good morning!"
+                android:textSize="16sp"
+                android:textColor="#6B7280"
+                android:letterSpacing="0.01" />
+
+            <TextView
+                android:id="@+id/tvGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello User!"
+                android:textStyle="bold"
+                android:textSize="32sp"
+                android:textColor="#111827"
+                android:letterSpacing="-0.01"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+        <!-- Daily Habits Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Daily Habits"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="#111827"
+                            android:letterSpacing="0.005" />
+
+                        <TextView
+                            android:id="@+id/tvHabitsProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="0% completed"
+                            android:textColor="#6B7280"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:text="📋"
+                        android:textSize="32sp"
+                        android:gravity="center"
+                        android:background="@drawable/habit_icon_bg" />
+
+                </LinearLayout>
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progressHabits"
+                    style="@style/Widget.Material3.LinearProgressIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:indicatorColor="#10B981"
+                    app:trackColor="#E5E7EB"
+                    app:trackThickness="10dp"
+                    app:trackCornerRadius="10dp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Hydration Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hydration Today"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="#111827"
+                            android:letterSpacing="0.005" />
+
+                        <TextView
+                            android:id="@+id/tvHydrationSummary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="0 / 4000 ml"
+                            android:textColor="#6B7280"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:text="💧"
+                        android:textSize="32sp"
+                        android:gravity="center"
+                        android:background="@drawable/water_icon_bg" />
+
+                </LinearLayout>
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progressHydrationToday"
+                    style="@style/Widget.Material3.LinearProgressIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:indicatorColor="#3B82F6"
+                    app:trackColor="#E5E7EB"
+                    app:trackThickness="10dp"
+                    app:trackCornerRadius="10dp" />
+
+                <!-- Weekly Chart -->
+                <LinearLayout
+                    android:id="@+id/layoutHydrationWeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+                        <View
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:background="#E5E7EB"
+                            android:layout_marginBottom="8dp" />
+                        <ProgressBar
+                            android:id="@+id/pbW0"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:rotation="180"
+                            android:scaleY="-1"
+                            android:max="100"
+                            android:progressDrawable="@drawable/vertical_progress"
+                            android:layout_marginTop="-100dp"
+                            android:layout_marginBottom="8dp" />
+                        <TextView
+                            android:id="@+id/tvW0"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="M"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+                        <View
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:background="#E5E7EB"
+                            android:layout_marginBottom="8dp" />
+                        <ProgressBar
+                            android:id="@+id/pbW1"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:rotation="180"
+                            android:scaleY="-1"
+                            android:max="100"
+                            android:progressDrawable="@drawable/vertical_progress"
+                            android:layout_marginTop="-100dp"
+                            android:layout_marginBottom="8dp" />
+                        <TextView
+                            android:id="@+id/tvW1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="T"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+                        <View
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:background="#E5E7EB"
+                            android:layout_marginBottom="8dp" />
+                        <ProgressBar
+                            android:id="@+id/pbW2"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:rotation="180"
+                            android:scaleY="-1"
+                            android:max="100"
+                            android:progressDrawable="@drawable/vertical_progress"
+                            android:layout_marginTop="-100dp"
+                            android:layout_marginBottom="8dp" />
+                        <TextView
+                            android:id="@+id/tvW2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="W"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+                        <View
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:background="#E5E7EB"
+                            android:layout_marginBottom="8dp" />
+                        <ProgressBar
+                            android:id="@+id/pbW3"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:rotation="180"
+                            android:scaleY="-1"
+                            android:max="100"
+                            android:progressDrawable="@drawable/vertical_progress"
+                            android:layout_marginTop="-100dp"
+                            android:layout_marginBottom="8dp" />
+                        <TextView
+                            android:id="@+id/tvW3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="T"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+                        <View
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:background="#E5E7EB"
+                            android:layout_marginBottom="8dp" />
+                        <ProgressBar
+                            android:id="@+id/pbW4"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:rotation="180"
+                            android:scaleY="-1"
+                            android:max="100"
+                            android:progressDrawable="@drawable/vertical_progress"
+                            android:layout_marginTop="-100dp"
+                            android:layout_marginBottom="8dp" />
+                        <TextView
+                            android:id="@+id/tvW4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="F"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+                        <View
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:background="#E5E7EB"
+                            android:layout_marginBottom="8dp" />
+                        <ProgressBar
+                            android:id="@+id/pbW5"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:rotation="180"
+                            android:scaleY="-1"
+                            android:max="100"
+                            android:progressDrawable="@drawable/vertical_progress"
+                            android:layout_marginTop="-100dp"
+                            android:layout_marginBottom="8dp" />
+                        <TextView
+                            android:id="@+id/tvW5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="S"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+                        <View
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:background="#E5E7EB"
+                            android:layout_marginBottom="8dp" />
+                        <ProgressBar
+                            android:id="@+id/pbW6"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="28dp"
+                            android:layout_height="100dp"
+                            android:rotation="180"
+                            android:scaleY="-1"
+                            android:max="100"
+                            android:progressDrawable="@drawable/vertical_progress"
+                            android:layout_marginTop="-100dp"
+                            android:layout_marginBottom="8dp" />
+                        <TextView
+                            android:id="@+id/tvW6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="S"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Small Snap Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSmallSnap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:strokeWidth="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="24dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Make Your Small Snap"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="#111827"
+                        android:letterSpacing="0.005" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Sleep decoded, you reloaded."
+                        android:textColor="#6B7280"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/snap_icon_bg"
+                    android:gravity="center"
+                    android:text="🛌"
+                    android:textSize="32sp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Mood Today Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="24dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Today's Emotion"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="#111827"
+                        android:letterSpacing="0.005" />
+
+                    <TextView
+                        android:id="@+id/tvMoodSummary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="No entries yet"
+                        android:textColor="#6B7280"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:text="😊"
+                    android:textSize="32sp"
+                    android:gravity="center"
+                    android:background="@drawable/mood_icon_bg" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</ScrollView>

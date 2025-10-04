@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- Skip Button -->
+    <TextView
+        android:id="@+id/tvSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/skip"
+        android:textColor="@color/primary_green"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:padding="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground" />
+
+    <!-- Main Content Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Top Spacer -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Image Container -->
+
+        <!-- Text Content Container -->
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="238dp"
+            app:srcCompat="@drawable/onboarding3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingHorizontal="16dp">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/onboarding3_title"
+                android:textColor="@color/text_primary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/onboarding3_description"
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp" />
+
+            <!-- Progress Dots -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginHorizontal="6dp"
+                    android:background="@drawable/dot_inactive" />
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginHorizontal="6dp"
+                    android:background="@drawable/dot_inactive" />
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginHorizontal="6dp"
+                    android:background="@drawable/dot_active" />
+
+            </LinearLayout>
+
+            <!-- Get Started Button -->
+            <Button
+                android:id="@+id/btnGetStarted"
+                android:layout_width="200dp"
+                android:layout_height="56dp"
+                android:background="@drawable/button_rounded_green"
+                android:elevation="4dp"
+                android:stateListAnimator="@null"
+                android:text="@string/get_started"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Bottom Spacer -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5" />
+
+    </LinearLayout>
+
+</RelativeLayout>
