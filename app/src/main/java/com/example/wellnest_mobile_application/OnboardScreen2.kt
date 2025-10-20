@@ -39,6 +39,6 @@ class OnboardScreen2 : AppCompatActivity() {
         val intent = Intent(this, HabitTrackerActivity::class.java)
         startActivity(intent)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        finishAffinity() // Close all onboarding screens
+        finishAffinity()
     }
 }

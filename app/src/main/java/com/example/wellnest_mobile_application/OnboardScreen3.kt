@@ -17,8 +17,6 @@ class OnboardScreen3 : AppCompatActivity() {
 
         val btnGetStarted = findViewById<Button>(R.id.btnGetStarted)
 
-
-
         btnGetStarted.setOnClickListener {
             navigateToMainApp()
         }

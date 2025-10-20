@@ -4,21 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
     android:fillViewport="true"
     tools:context=".Sign_Up">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_outline"
         android:padding="24dp">
-
 
 
         <ImageButton
             android:id="@+id/back_button"
-            android:layout_width="36dp"
-            android:layout_height="31dp"
+            android:layout_width="18dp"
+            android:layout_height="0dp"
             android:layout_marginTop="24dp"
 
             android:background="@drawable/back_arrow"
@@ -53,7 +52,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/create_account"
-                android:textColor="@color/white"
+                android:textColor="@color/text_primary"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -63,7 +62,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins"
                 android:text="@string/join_thousands_on_their_wellness_journey"
-                android:textColor="#E8F5E8"
+                android:textColor="@color/background_dark"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -74,36 +73,39 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="32dp"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="24dp"
             app:cardElevation="12dp"
-            app:cardBackgroundColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_signup_container"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header_container"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_signup_container">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header_container">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:elevation="@dimen/cardview_compat_inset_shadow"
                 android:orientation="vertical"
                 android:padding="32dp">
 
                 <!-- Full Name Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/fullname_input_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
                     app:boxStrokeColor="@color/primary_green"
                     app:boxStrokeWidth="2dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
                     app:hintTextColor="@color/primary_green"
                     app:startIconDrawable="@drawable/ic_person"
                     app:startIconTint="@color/primary_green"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    app:errorEnabled="true"
+                    app:errorTextColor="@color/error_red">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/fullname_input"
@@ -119,19 +121,21 @@
                 <!-- Email Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/signup_email_input_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
                     app:boxStrokeColor="@color/primary_green"
                     app:boxStrokeWidth="2dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
                     app:hintTextColor="@color/primary_green"
                     app:startIconDrawable="@drawable/ic_email"
                     app:startIconTint="@color/primary_green"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    app:errorEnabled="true"
+                    app:errorTextColor="@color/error_red">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/signup_email_input"
@@ -147,19 +151,21 @@
                 <!-- Phone Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/phone_input_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
                     app:boxStrokeColor="@color/primary_green"
                     app:boxStrokeWidth="2dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
                     app:hintTextColor="@color/primary_green"
                     app:startIconDrawable="@drawable/ic_phone"
                     app:startIconTint="@color/primary_green"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    app:errorEnabled="true"
+                    app:errorTextColor="@color/error_red">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phone_input"
@@ -175,21 +181,23 @@
                 <!-- Password Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/signup_password_input_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
                     app:boxStrokeColor="@color/primary_green"
                     app:boxStrokeWidth="2dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/primary_green"
                     app:hintTextColor="@color/primary_green"
                     app:startIconDrawable="@drawable/ic_lock"
                     app:startIconTint="@color/primary_green"
-                    app:endIconMode="password_toggle"
-                    app:endIconTint="@color/primary_green"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    app:errorEnabled="true"
+                    app:errorTextColor="@color/error_red">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/signup_password_input"
@@ -219,7 +227,9 @@
                     app:endIconTint="@color/primary_green"
                     app:hintTextColor="@color/primary_green"
                     app:startIconDrawable="@drawable/ic_lock"
-                    app:startIconTint="@color/primary_green">
+                    app:startIconTint="@color/primary_green"
+                    app:errorEnabled="true"
+                    app:errorTextColor="@color/error_red">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/confirm_password_input"
@@ -236,9 +246,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="24dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="24dp">
+                    android:orientation="horizontal">
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/terms_checkbox"
@@ -260,13 +270,13 @@
                         android:id="@+id/terms_link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/terms_amp_privacy_policy"
-                        android:textSize="14sp"
-                        android:textColor="@color/primary_green"
-                        android:textStyle="bold"
-                        android:padding="4dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:fontFamily="@font/poppins_bold" />
+                        android:fontFamily="@font/poppins_bold"
+                        android:padding="4dp"
+                        android:text="@string/terms_amp_privacy_policy"
+                        android:textColor="@color/primary_green"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -288,9 +298,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginVertical="24dp"
                     android:gravity="center_vertical"
-                    android:layout_marginVertical="24dp">
+                    android:orientation="horizontal">
 
                     <View
                         android:layout_width="0dp"
@@ -301,11 +311,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/oR"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_secondary"
                         android:layout_marginHorizontal="16dp"
-                        android:fontFamily="@font/poppins_medium" />
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/oR"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
 
                     <View
                         android:layout_width="0dp"
@@ -341,32 +351,32 @@
             android:id="@+id/bottom_signup_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signup_card"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signup_card">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins"
                 android:text="@string/already_have_an_account"
-                android:textColor="@color/white"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/signin_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:padding="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:fontFamily="@font/poppins_bold" />
+                android:fontFamily="@font/poppins_bold"
+                android:padding="8dp"
+                android:text="@string/sign"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

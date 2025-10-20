@@ -32,7 +32,6 @@ class OnboardScreen1 : AppCompatActivity() {
     }
 
     private fun navigateToMainApp() {
-        // Replace with your main activity (e.g., HomeActivity or HabitTrackerActivity)
         val intent = Intent(this, HabitTrackerActivity::class.java)
         startActivity(intent)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

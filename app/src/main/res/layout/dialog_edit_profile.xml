@@ -9,7 +9,7 @@
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Full name"
+        android:hint="@string/full_name"
         android:inputType="textPersonName"
         android:background="@drawable/edittext_background"
         android:padding="12dp"
@@ -19,7 +19,7 @@
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:background="@drawable/edittext_background"
         android:padding="12dp" />

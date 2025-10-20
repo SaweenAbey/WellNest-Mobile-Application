@@ -90,7 +90,6 @@
         android:layout_height="48dp"
         android:layout_margin="24dp"
         android:background="@drawable/back_arrow"
-        android:text="←"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -107,23 +106,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Small Snap"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/small_snap"
             android:textColor="@color/white"
             android:textSize="32sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:textStyle="bold" />
 
         <!-- Countdown Display -->
         <TextView
             android:id="@+id/tvCountdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="01:00"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/_01_00"
             android:textColor="@color/white"
             android:textSize="72sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="32dp"
-            android:fontFamily="monospace" />
+            android:textStyle="bold" />
 
         <!-- Duration Settings -->
         <LinearLayout
@@ -136,11 +136,12 @@
                 android:id="@+id/tvDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Duration: 01:00"
-                android:textColor="@color/white"
-                android:textSize="16sp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/duration_01_00"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <SeekBar
                 android:id="@+id/seekBarDuration"
@@ -157,21 +158,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="8dp">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/poppins"
                     android:text="15s"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/poppins"
+                    android:gravity="end"
                     android:text="5m"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:gravity="end" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -187,9 +192,10 @@
                 android:id="@+id/btnStartStop"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
-                android:layout_weight="1"
                 android:layout_marginEnd="8dp"
+                android:layout_weight="1"
                 android:background="@drawable/start_button_bg"
+                android:fontFamily="@font/poppins_medium"
                 android:text="▶️ Start"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -199,9 +205,10 @@
                 android:id="@+id/btnAddTime"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
+                android:layout_weight="1"
                 android:background="@drawable/add_time_button_bg"
+                android:fontFamily="@font/poppins_medium"
                 android:text="+30s"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -216,6 +223,7 @@
             android:layout_height="56dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/custom_time_button_bg"
+            android:fontFamily="@font/poppins_medium"
             android:text="⏰ Custom Time"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -226,6 +234,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/music_button_bg"
+            android:fontFamily="@font/poppins_medium"
             android:text="🎵 Play Music"
             android:textColor="@color/white"
             android:textSize="16sp" />

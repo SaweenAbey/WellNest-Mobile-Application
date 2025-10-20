@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light">
+    android:background="@color/background_light"
+    android:fitsSystemWindows="true">
 
     <!-- Main content -->
     <LinearLayout
@@ -16,7 +17,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="6dp"
             app:cardBackgroundColor="@color/primary_green">
@@ -30,19 +34,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Habits Tracker"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/habits_tracker"
+                    android:textColor="@color/white"
                     android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Keep building healthy habits!"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_light"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/keep_building_healthy_habits"
+                    android:textColor="@color/splash_background"
+                    android:textSize="14sp" />
 
                 <ProgressBar
                     android:id="@+id/progressDaily"
@@ -76,11 +82,12 @@
         android:id="@+id/fabAddHabit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:contentDescription="@string/image_desc"
+        android:src="@drawable/ic_add"
         app:backgroundTint="@color/primary_green"
-        app:tint="@color/white"
-        app:elevation="8dp" />
+        app:elevation="8dp"
+        app:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

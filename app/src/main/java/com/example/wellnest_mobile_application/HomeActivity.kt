@@ -9,20 +9,21 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.wellnest_mobile_application.HabitTrackerActivity
-import com.example.wellnest_mobile_application.data.SharedPrefManager
+import com.example.wellnest_mobile_application.database.DatabaseManager
 import com.example.wellnest_mobile_application.databinding.ActivityHomeBinding
 import com.example.wellnest_mobile_application.fragments.MoodFragment
 import com.example.wellnest_mobile_application.fragments.HydrationFragment
 import com.example.wellnest_mobile_application.fragments.HabitsFragment
 import com.example.wellnest_mobile_application.fragments.ProfileFragment
 import com.example.wellnest_mobile_application.fragments.TodoFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
-    private lateinit var prefManager: SharedPrefManager
-    // notifications removed
+    lateinit var binding: ActivityHomeBinding
+    private lateinit var databaseManager: DatabaseManager
 
-    // Track current fragment
     private var currentFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,51 +31,56 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        prefManager = SharedPrefManager(this)
+        databaseManager = DatabaseManager(this)
 
-        // Check if user is logged in
-        if (!prefManager.isLoggedIn()) {
-            redirectToLogin()
-            return
+        // Check if user is logged in using database
+        CoroutineScope(Dispatchers.IO).launch {
+            val isLoggedIn = databaseManager.userRepository.isLoggedIn()
+            
+            runOnUiThread {
+                if (!isLoggedIn) {
+                    redirectToLogin()
+                    return@runOnUiThread
+                }
+                
+                configureStatusBar()
+                initializeUI()
+                setupNavigation()
+                loadDefaultFragment()
+            }
         }
+    }
 
-        initializeUI()
-        setupNavigation()
-        loadDefaultFragment()
+    private fun configureStatusBar() {
+        window.statusBarColor = android.graphics.Color.TRANSPARENT
+        window.decorView.systemUiVisibility = 
+            android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+            android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
+                android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
     }
 
     private fun initializeUI() {
-        // Set up toolbar
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
 
-        // Set user name in toolbar if available
-        val user = prefManager.getUser()
-        user?.let {
-            binding.toolbar.title = "Welcome, ${it.fullName.split(" ")[0]}!"
-        } ?: run {
-            binding.toolbar.title = "Wellnest Wellness"
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.top_app_bar_menu, menu)
-        // notifications removed
-        return true
+
+        return false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updateNotificationsBadge() {
-        binding.toolbar.subtitle = null
-    }
 
-    // removed duplicate onResume; consolidated below
 
     private fun setupNavigation() {
-        // Bottom Navigation
+
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_todo -> {
@@ -101,11 +107,6 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        // Set navigation icon if needed (for future drawer implementation)
-        binding.toolbar.setNavigationOnClickListener {
-            // Optional: Add drawer functionality here
-            Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun loadDefaultFragment() {
@@ -113,11 +114,8 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavigation.selectedItemId = R.id.nav_todo
     }
 
-    private fun loadFragment(fragment: Fragment, title: String) {
-        // Update toolbar title
-        binding.toolbar.title = title
+    fun loadFragment(fragment: Fragment, title: String) {
 
-        // Only replace fragment if it's different from current
         if (currentFragment?.javaClass != fragment.javaClass) {
             supportFragmentManager.beginTransaction()
                 .setCustomAnimations(
@@ -138,21 +136,17 @@ class HomeActivity : AppCompatActivity() {
         finish()
     }
 
-    // Handle back button press
     override fun onBackPressed() {
         when (currentFragment) {
             is HabitsFragment -> {
-                // If already on habits fragment, confirm exit
                 if (binding.bottomNavigation.selectedItemId == R.id.nav_habits) {
                     showExitConfirmation()
                 } else {
-                    // Go back to habits fragment
                     loadFragment(HabitsFragment(), "Habits Tracker")
                     binding.bottomNavigation.selectedItemId = R.id.nav_habits
                 }
             }
             else -> {
-                // For other fragments, go back to habits
                 loadFragment(HabitsFragment(), "Habits Tracker")
                 binding.bottomNavigation.selectedItemId = R.id.nav_habits
             }
@@ -170,12 +164,9 @@ class HomeActivity : AppCompatActivity() {
             .show()
     }
 
-    // Method to update toolbar title from fragments
-    fun updateToolbarTitle(title: String) {
-        binding.toolbar.title = title
-    }
 
-    // Method to show/hide bottom navigation
+
+
     fun setBottomNavigationVisibility(visible: Boolean) {
         binding.bottomNavigation.visibility = if (visible) {
             android.view.View.VISIBLE
@@ -184,7 +175,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    // Refresh current fragment (useful after data changes)
+
     fun refreshCurrentFragment() {
         currentFragment?.let { fragment ->
             when (fragment) {
@@ -206,10 +197,5 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val user = prefManager.getUser()
-        user?.let {
-            binding.toolbar.title = "Welcome, ${it.fullName.split(" ")[0]}!"
-        }
-        updateNotificationsBadge()
     }
 }

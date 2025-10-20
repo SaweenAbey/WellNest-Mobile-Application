@@ -5,7 +5,10 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,16 +22,20 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.wellnest_mobile_application.R
-import com.example.wellnest_mobile_application.data.SharedPrefManager
+import com.example.wellnest_mobile_application.database.DatabaseManager
 import com.example.wellnest_mobile_application.models.HydrationRecord
 import com.example.wellnest_mobile_application.notifications.HydrationReminderReceiver
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.first
 
 class HydrationFragment : Fragment() {
 
-    private lateinit var pref: SharedPrefManager
+    private lateinit var databaseManager: DatabaseManager
     private lateinit var tvDailyIntake: TextView
     private lateinit var progressHydration: ProgressBar
     private lateinit var waterFill: View
@@ -38,6 +45,12 @@ class HydrationFragment : Fragment() {
     private lateinit var switchHydrationReminder: Switch
     private lateinit var tvReminderInterval: TextView
     private lateinit var seekBarReminderInterval: SeekBar
+    
+    // Table components
+    private lateinit var hydrationTableContainer: ViewGroup
+    private lateinit var tvWeeklyTotalIntake: TextView
+    private lateinit var tvWeeklyAvgPercentage: TextView
+    private lateinit var tvWeeklyGoalsAchieved: TextView
 
     private val dailyGoalMl = 4000
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -48,7 +61,7 @@ class HydrationFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_hydration, container, false)
 
-        pref = SharedPrefManager(requireContext())
+        databaseManager = DatabaseManager(requireContext())
         tvDailyIntake = view.findViewById(R.id.tvDailyIntake)
         progressHydration = view.findViewById(R.id.progressHydration)
         waterFill = view.findViewById(R.id.waterFill)
@@ -58,6 +71,12 @@ class HydrationFragment : Fragment() {
         switchHydrationReminder = view.findViewById(R.id.switchHydrationReminder)
         tvReminderInterval = view.findViewById(R.id.tvReminderInterval)
         seekBarReminderInterval = view.findViewById(R.id.seekBarReminderInterval)
+        
+        // Table components
+        hydrationTableContainer = view.findViewById(R.id.hydrationTableContainer)
+        tvWeeklyTotalIntake = view.findViewById(R.id.tvWeeklyTotalIntake)
+        tvWeeklyAvgPercentage = view.findViewById(R.id.tvWeeklyAvgPercentage)
+        tvWeeklyGoalsAchieved = view.findViewById(R.id.tvWeeklyGoalsAchieved)
 
         btnAdd150.setOnClickListener { addWater(150) }
         btnAdd200.setOnClickListener { addWater(200) }
@@ -91,28 +110,29 @@ class HydrationFragment : Fragment() {
     }
 
     private fun addWater(amountMl: Int) {
-        try {
-            val now = Calendar.getInstance()
-            val date = dateFormat.format(now.time)
-            val time = timeFormat.format(now.time)
+        lifecycleScope.launch {
+            try {
+                val now = Calendar.getInstance()
+                val date = dateFormat.format(now.time)
+                val time = timeFormat.format(now.time)
 
-            val existing = pref.getHydrationRecords()
-            val newId = if (existing.isNotEmpty()) existing.maxOf { it.id } + 1 else 1
-            val rec = HydrationRecord(newId, amountMl, date, time)
-            pref.saveHydrationRecord(rec)
-            animateCupToCurrent()
-            val reached = updateUiForToday()
-            if (reached) {
-                Toast.makeText(context, "Your Today Hydarate goal Complete Sucess", Toast.LENGTH_LONG).show()
+                val rec = HydrationRecord(0, amountMl, date, time) // ID will be auto-generated
+                databaseManager.hydrationRecordRepository.saveHydrationRecord(rec)
+                
+                animateCupToCurrent()
+                val reached = updateUiForToday()
+                if (reached) {
+                    Toast.makeText(context, "Your Today Hydarate goal Complete Sucess", Toast.LENGTH_LONG).show()
+                }
+                updateWeeklyBars(view ?: return@launch)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            updateWeeklyBars(view ?: return)
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 
     private fun getTodayIntake(): Int {
-        return pref.getTodayWaterIntake()
+        return runBlocking { databaseManager.hydrationRecordRepository.getTodayWaterIntake() }
     }
 
     private fun animateCupToCurrent() {
@@ -150,13 +170,13 @@ class HydrationFragment : Fragment() {
     private fun updateWeeklyBars(root: View) {
         try {
             val bars = arrayOf(
-                root.findViewById<ProgressBar>(R.id.pbD0),
-                root.findViewById<ProgressBar>(R.id.pbD1),
-                root.findViewById<ProgressBar>(R.id.pbD2),
-                root.findViewById<ProgressBar>(R.id.pbD3),
-                root.findViewById<ProgressBar>(R.id.pbD4),
-                root.findViewById<ProgressBar>(R.id.pbD5),
-                root.findViewById<ProgressBar>(R.id.pbD6)
+                root.findViewById<View>(R.id.pbD0),
+                root.findViewById<View>(R.id.pbD1),
+                root.findViewById<View>(R.id.pbD2),
+                root.findViewById<View>(R.id.pbD3),
+                root.findViewById<View>(R.id.pbD4),
+                root.findViewById<View>(R.id.pbD5),
+                root.findViewById<View>(R.id.pbD6)
             )
             val labels = arrayOf(
                 root.findViewById<TextView>(R.id.tvD0),
@@ -169,19 +189,79 @@ class HydrationFragment : Fragment() {
             )
 
             val cal = Calendar.getInstance()
+            val today = Calendar.getInstance()
+            
             // Move to Monday
             cal.firstDayOfWeek = Calendar.MONDAY
             cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
 
             val dayNames = arrayOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+            val maxBarHeight = 110
+            
             for (i in 0..6) {
                 val dateStr = dateFormat.format(cal.time)
-                val totalForDay = pref.getHydrationRecords()
-                    .filter { it.date == dateStr }
-                    .sumOf { it.amount }
+                val totalForDay: Int = runBlocking { 
+                    databaseManager.hydrationRecordRepository.getHydrationRecords()
+                        .first()
+                        .filter { record -> record.date == dateStr }
+                        .sumOf { record -> record.amount }
+                }
+                
                 val pct = ((totalForDay.toFloat() / dailyGoalMl) * 100).toInt().coerceIn(0, 100)
-                bars[i].progress = pct
-                labels[i].text = dayNames[i]
+                val targetHeight = (maxBarHeight * pct / 100f).toInt()
+                
+                // Set color based on percentage
+                val color = when {
+                    pct >= 100 -> androidx.core.content.ContextCompat.getColor(requireContext(), R.color.primary_green)
+                    pct >= 75 -> androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.holo_green_light)
+                    pct >= 50 -> androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.holo_orange_light)
+                    else -> androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.holo_red_light)
+                }
+                
+                // Create colored drawable
+                val drawable = androidx.core.graphics.drawable.DrawableCompat.wrap(
+                    androidx.core.content.ContextCompat.getDrawable(requireContext(), R.drawable.vertical_bar_fill)!!
+                ).mutate()
+                androidx.core.graphics.drawable.DrawableCompat.setTint(drawable, color)
+                
+                // Animate bar
+                bars[i].apply {
+                    background = drawable
+                    
+                    // Start from 0 height
+                    layoutParams.height = 0
+                    requestLayout()
+                    
+                    // Animate to target height
+                    val animator = ValueAnimator.ofInt(0, targetHeight)
+                    animator.duration = 800 + (i * 100L) // Staggered animation
+                    animator.addUpdateListener { animation ->
+                        val height = animation.animatedValue as Int
+                        val dpHeight = (height * resources.displayMetrics.density).toInt()
+                        layoutParams.height = dpHeight
+                        requestLayout()
+                    }
+                    animator.start()
+                }
+                
+                // Update label
+                labels[i].apply {
+                    text = dayNames[i]
+                    
+                    // Highlight today
+                    val isToday = dateFormat.format(cal.time) == dateFormat.format(today.time)
+                    
+                    if (isToday) {
+                        setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.primary_green))
+                        textSize = 13f
+                        typeface = android.graphics.Typeface.DEFAULT_BOLD
+                    } else {
+                        setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.text_secondary))
+                        textSize = 12f
+                        typeface = android.graphics.Typeface.DEFAULT
+                    }
+                }
+                
                 cal.add(Calendar.DAY_OF_YEAR, 1)
             }
         } catch (e: Exception) {
@@ -190,45 +270,104 @@ class HydrationFragment : Fragment() {
     }
 
     private fun setupReminderSettings() {
-        // Initialize reminder settings
-        switchHydrationReminder.isChecked = pref.isHydrationReminderEnabled()
-        val currentInterval = pref.getHydrationReminderInterval()
-        seekBarReminderInterval.progress = currentInterval
-        updateReminderIntervalText(currentInterval)
+        lifecycleScope.launch {
+            val hydrationEnabled = databaseManager.appSettingsRepository.isHydrationReminderEnabled()
+            val currentInterval = databaseManager.appSettingsRepository.getHydrationReminderInterval()
+            
+            switchHydrationReminder.isChecked = hydrationEnabled
+            seekBarReminderInterval.progress = currentInterval
+            updateReminderIntervalText(currentInterval)
 
-        // Set up listeners
-        switchHydrationReminder.setOnCheckedChangeListener { _, isChecked ->
-            pref.setHydrationReminderEnabled(isChecked)
-            if (isChecked) {
-                scheduleHydrationReminders()
-            } else {
-                cancelHydrationReminders()
+            switchHydrationReminder.setOnCheckedChangeListener { _, isChecked ->
+                lifecycleScope.launch {
+                    if (isChecked) {
+                        if (checkNotificationPermission()) {
+                            databaseManager.appSettingsRepository.setHydrationReminderEnabled(true)
+                            scheduleHydrationReminders()
+                        } else {
+                            switchHydrationReminder.isChecked = false
+                        }
+                    } else {
+                        databaseManager.appSettingsRepository.setHydrationReminderEnabled(false)
+                        cancelHydrationReminders()
+                    }
+                }
             }
+
+            seekBarReminderInterval.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    if (fromUser) {
+                        updateReminderIntervalText(progress)
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    val interval = seekBarReminderInterval.progress
+                    lifecycleScope.launch {
+                        databaseManager.appSettingsRepository.setHydrationReminderInterval(interval)
+                        if (databaseManager.appSettingsRepository.isHydrationReminderEnabled()) {
+                            cancelHydrationReminders()
+                            scheduleHydrationReminders()
+                        }
+                    }
+                }
+            })
         }
-
-        seekBarReminderInterval.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser) {
-                    updateReminderIntervalText(progress)
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                val interval = seekBarReminderInterval.progress
-                pref.setHydrationReminderInterval(interval)
-                if (pref.isHydrationReminderEnabled()) {
-                    // Reschedule with new interval
-                    cancelHydrationReminders()
-                    scheduleHydrationReminders()
-                }
-            }
-        })
     }
 
     private fun updateReminderIntervalText(intervalMinutes: Int) {
         tvReminderInterval.text = "$intervalMinutes minutes"
+    }
+
+    private fun checkNotificationPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            when {
+                androidx.core.content.ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    true
+                }
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) -> {
+                    showNotificationPermissionDialog()
+                    false
+                }
+                else -> {
+                    requestNotificationPermission()
+                    false
+                }
+            }
+        } else {
+            true
+        }
+    }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                1001
+            )
+        }
+    }
+
+    private fun showNotificationPermissionDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Notification Permission Required")
+            .setMessage("Hydration reminders need notification permission to work. Please enable notifications in your device settings.")
+            .setPositiveButton("Settings") { _, _ ->
+                val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = android.net.Uri.parse("package:${requireContext().packageName}")
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun scheduleHydrationReminders() {
@@ -245,19 +384,42 @@ class HydrationFragment : Fragment() {
 
             val cal = Calendar.getInstance()
             cal.timeInMillis = System.currentTimeMillis()
-            cal.add(Calendar.MINUTE, 1) // first trigger in 1 minute
+            cal.add(Calendar.MINUTE, 1)
 
-            val interval = pref.getHydrationReminderInterval() * 60 * 1000L // convert minutes to milliseconds
+            val interval = runBlocking { databaseManager.appSettingsRepository.getHydrationReminderInterval() } * 60 * 1000L
 
-            alarm.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                cal.timeInMillis,
-                interval,
-                pi
-            )
+            // Schedule repeating alarm
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                alarm.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    cal.timeInMillis,
+                    pi
+                )
+
+                scheduleNextReminder(ctx, alarm, pi, interval)
+            } else {
+                alarm.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    cal.timeInMillis,
+                    interval,
+                    pi
+                )
+            }
             Toast.makeText(context, "Hydration reminders enabled", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             e.printStackTrace()
+            Toast.makeText(context, "Failed to enable reminders: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun scheduleNextReminder(context: Context, alarmManager: AlarmManager, pendingIntent: PendingIntent, interval: Long) {
+        val nextAlarmTime = System.currentTimeMillis() + interval
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                nextAlarmTime,
+                pendingIntent
+            )
         }
     }
 

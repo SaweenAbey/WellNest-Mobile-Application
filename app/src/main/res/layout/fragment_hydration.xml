@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +16,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="6dp"
             app:cardBackgroundColor="@color/primary_green">
@@ -30,7 +34,8 @@
                     android:id="@+id/tvHydrationHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hydration"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/hydration"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -39,10 +44,11 @@
                     android:id="@+id/tvDailyIntake"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 / 4000 ml"
-                    android:textColor="@color/primary_light"
-                    android:textSize="14sp"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/_0_4000_ml"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -85,8 +91,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="+150 ml"
                 android:background="@drawable/button_rounded_green"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/_150_ml"
                 android:textColor="@color/white" />
 
             <Space
@@ -98,8 +105,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="+200 ml"
                 android:background="@drawable/button_rounded_green"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/_200_ml"
                 android:textColor="@color/white" />
 
             <Space
@@ -111,9 +119,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Custom"
                 android:background="@drawable/button_outline_green"
-                android:textColor="@color/primary_green" />
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/custom"
+                android:textColor="@color/splash_background" />
         </LinearLayout>
 
         <!-- Reminder Settings Card -->
@@ -134,7 +143,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Reminder Settings"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/reminder_settings"
                     android:textColor="@color/text_primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -145,11 +155,13 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:layout_marginTop="16dp">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Enable Reminders"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="@string/enable_reminders"
                         android:textColor="@color/text_primary" />
                     <Switch
                         android:id="@+id/switchHydrationReminder"
@@ -160,10 +172,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Get reminded to drink water"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/get_reminded_to_drink_water"
                     android:textColor="@color/text_secondary"
-                    android:textSize="12sp"
-                    android:layout_marginTop="4dp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -171,17 +184,19 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:layout_marginTop="16dp">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Reminder Interval"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="@string/reminder_interval"
                         android:textColor="@color/text_primary" />
                     <TextView
                         android:id="@+id/tvReminderInterval"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="60 minutes"
+                        android:text="@string/_60_minutes"
                         android:textColor="@color/primary_green"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -202,214 +217,464 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="4dp">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/poppins"
                         android:text="15 min"
                         android:textColor="@color/text_secondary"
                         android:textSize="10sp" />
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="end"
                         android:text="180 min"
                         android:textColor="@color/text_secondary"
-                        android:textSize="10sp"
-                        android:gravity="end" />
+                        android:textSize="10sp" />
                 </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="This Week"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/text_primary" />
-
-        <LinearLayout
-            android:id="@+id/layoutWeekly"
+        <!-- This Week Section -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:gravity="center_vertical">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="This Week"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
+
+                <LinearLayout
+                    android:id="@+id/layoutWeekly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="8dp">
 
             <!-- We will add 7 child columns dynamically or simply reserve 7 containers -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="bottom|center_horizontal">
-                <ProgressBar
-                    android:id="@+id/pbD0"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="12dp"
-                    android:layout_height="100dp"
-                    android:rotation="-90"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressTint="@color/primary_green"
-                    android:progressBackgroundTint="@color/lightGray" />
-                <TextView
-                    android:id="@+id/tvD0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mon"
-                    android:textSize="12sp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="140dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom|center_horizontal"
+                        android:layout_marginHorizontal="2dp">
+                        
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="110dp"
+                            android:background="@drawable/vertical_bar_background" />
+                        
+                        <View
+                            android:id="@+id/pbD0"
+                            android:layout_width="24dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="-110dp"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/vertical_bar_fill" />
+
+                        <TextView
+                            android:id="@+id/tvD0"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Mon"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="140dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom|center_horizontal"
+                        android:layout_marginHorizontal="2dp">
+                        
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="110dp"
+                            android:background="@drawable/vertical_bar_background" />
+                        
+                        <View
+                            android:id="@+id/pbD1"
+                            android:layout_width="24dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="-110dp"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/vertical_bar_fill" />
+
+                        <TextView
+                            android:id="@+id/tvD1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Tue"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="140dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom|center_horizontal"
+                        android:layout_marginHorizontal="2dp">
+                        
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="110dp"
+                            android:background="@drawable/vertical_bar_background" />
+                        
+                        <View
+                            android:id="@+id/pbD2"
+                            android:layout_width="24dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="-110dp"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/vertical_bar_fill" />
+
+                        <TextView
+                            android:id="@+id/tvD2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Wed"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="140dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom|center_horizontal"
+                        android:layout_marginHorizontal="2dp">
+                        
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="110dp"
+                            android:background="@drawable/vertical_bar_background" />
+                        
+                        <View
+                            android:id="@+id/pbD3"
+                            android:layout_width="24dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="-110dp"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/vertical_bar_fill" />
+
+                        <TextView
+                            android:id="@+id/tvD3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Thu"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="140dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom|center_horizontal"
+                        android:layout_marginHorizontal="2dp">
+                        
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="110dp"
+                            android:background="@drawable/vertical_bar_background" />
+                        
+                        <View
+                            android:id="@+id/pbD4"
+                            android:layout_width="24dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="-110dp"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/vertical_bar_fill" />
+
+                        <TextView
+                            android:id="@+id/tvD4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Fri"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="140dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom|center_horizontal"
+                        android:layout_marginHorizontal="2dp">
+                        
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="110dp"
+                            android:background="@drawable/vertical_bar_background" />
+                        
+                        <View
+                            android:id="@+id/pbD5"
+                            android:layout_width="24dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="-110dp"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/vertical_bar_fill" />
+
+                        <TextView
+                            android:id="@+id/tvD5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Sat"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="140dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom|center_horizontal"
+                        android:layout_marginHorizontal="2dp">
+                        
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="110dp"
+                            android:background="@drawable/vertical_bar_background" />
+                        
+                        <View
+                            android:id="@+id/pbD6"
+                            android:layout_width="24dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="-110dp"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/vertical_bar_fill" />
+
+                        <TextView
+                            android:id="@+id/tvD6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Sun"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- Weekly Water Percentage Table Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/white">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="bottom|center_horizontal">
-                <ProgressBar
-                    android:id="@+id/pbD1"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="12dp"
-                    android:layout_height="100dp"
-                    android:rotation="-90"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressTint="@color/primary_green"
-                    android:progressBackgroundTint="@color/lightGray" />
+                android:padding="20dp"
+                android:background="@drawable/card_background_gradient">
+
                 <TextView
-                    android:id="@+id/tvD1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tue"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                    android:text="Weekly Hydration Summary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:layout_marginBottom="16dp" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="bottom|center_horizontal">
-                <ProgressBar
-                    android:id="@+id/pbD2"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="12dp"
-                    android:layout_height="100dp"
-                    android:rotation="-90"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressTint="@color/primary_green"
-                    android:progressBackgroundTint="@color/lightGray" />
-                <TextView
-                    android:id="@+id/tvD2"
-                    android:layout_width="wrap_content"
+                <!-- Table Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Wed"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:background="@color/background_light"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="bottom|center_horizontal">
-                <ProgressBar
-                    android:id="@+id/pbD3"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="12dp"
-                    android:layout_height="100dp"
-                    android:rotation="-90"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressTint="@color/primary_green"
-                    android:progressBackgroundTint="@color/lightGray" />
-                <TextView
-                    android:id="@+id/tvD3"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Day"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:text="Intake (ml)"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="14sp"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:text="Percentage"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="14sp"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Status"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="14sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+                <!-- Table Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color" />
+
+                <!-- Table Rows Container -->
+                <LinearLayout
+                    android:id="@+id/hydrationTableContainer"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Thu"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                    android:orientation="vertical">
+                    
+                    <!-- Dynamic table rows will be added here programmatically -->
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="bottom|center_horizontal">
-                <ProgressBar
-                    android:id="@+id/pbD4"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="12dp"
-                    android:layout_height="100dp"
-                    android:rotation="-90"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressTint="@color/primary_green"
-                    android:progressBackgroundTint="@color/lightGray" />
-                <TextView
-                    android:id="@+id/tvD4"
-                    android:layout_width="wrap_content"
+                </LinearLayout>
+
+                <!-- Table Footer with Weekly Summary -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    android:layout_marginTop="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Fri"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal"
+                    android:background="@color/primary_green"
+                    android:padding="12dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="1dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Weekly Total"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvWeeklyTotalIntake"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:text="0 ml"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="14sp"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/tvWeeklyAvgPercentage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:text="0%"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="14sp"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/tvWeeklyGoalsAchieved"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0/7"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="14sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="bottom|center_horizontal">
-                <ProgressBar
-                    android:id="@+id/pbD5"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="12dp"
-                    android:layout_height="100dp"
-                    android:rotation="-90"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressTint="@color/primary_green"
-                    android:progressBackgroundTint="@color/lightGray" />
-                <TextView
-                    android:id="@+id/tvD5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sat"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="bottom|center_horizontal">
-                <ProgressBar
-                    android:id="@+id/pbD6"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="12dp"
-                    android:layout_height="100dp"
-                    android:rotation="-90"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressTint="@color/primary_green"
-                    android:progressBackgroundTint="@color/lightGray" />
-                <TextView
-                    android:id="@+id/tvD6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sun"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

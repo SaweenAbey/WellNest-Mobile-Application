@@ -8,16 +8,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter water amount in milliliters:"
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/enter_water_amount_in_milliliters"
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/etWaterAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:hint="e.g., 250"
+        android:hint="@string/e_g_250"
         android:maxLines="1" />
 
 </LinearLayout>

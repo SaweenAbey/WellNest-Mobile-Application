@@ -9,21 +9,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.wellnest_mobile_application.activities.HomeActivity
-import com.example.wellnest_mobile_application.data.SharedPrefManager
+import com.example.wellnest_mobile_application.database.DatabaseManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class HabitTrackerActivity : AppCompatActivity() {
 
-    private lateinit var prefManager: SharedPrefManager
+    private lateinit var databaseManager: DatabaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_habit_tracker)
 
-        prefManager = SharedPrefManager(this)
+        databaseManager = DatabaseManager(this)
 
         val emailInput = findViewById<TextInputEditText>(R.id.email_input)
         val passwordInput = findViewById<TextInputEditText>(R.id.password_input)
@@ -34,25 +37,30 @@ class HabitTrackerActivity : AppCompatActivity() {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
 
-
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Email and Password are required!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val savedUser = prefManager.getUser()
-            if (savedUser != null &&
-                email == savedUser.email &&
-                password == savedUser.password
-            ) {
-                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+            CoroutineScope(Dispatchers.IO).launch {
+                val user = databaseManager.userRepository.getUserByCredentials(email, password)
+                
+                runOnUiThread {
+                    if (user != null) {
+                        Toast.makeText(this@HabitTrackerActivity, "Login successful!", Toast.LENGTH_SHORT).show()
+                        
+                        // Start session
+                        CoroutineScope(Dispatchers.IO).launch {
+                            databaseManager.userRepository.startSession()
+                        }
 
-
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, "Invalid credentials!", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@HabitTrackerActivity, HomeActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this@HabitTrackerActivity, "Invalid credentials!", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
 

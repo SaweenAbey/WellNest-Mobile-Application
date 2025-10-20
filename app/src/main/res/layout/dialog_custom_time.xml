@@ -8,10 +8,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter custom time duration"
-        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/enter_custom_time_duration"
         android:textColor="@color/text_primary"
-        android:layout_marginBottom="16dp" />
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,17 +30,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Minutes"
-                android:textSize="14sp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/minutes"
                 android:textColor="@color/text_secondary"
-                android:layout_marginBottom="4dp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/etMinutes"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:inputType="number"
-                android:hint="0"
+                android:hint="@string/_0"
                 android:background="@drawable/edit_text_bg"
                 android:padding="12dp"
                 android:textSize="16sp"
@@ -50,7 +52,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=":"
+            android:text="@string/colan"
             android:textSize="24sp"
             android:textColor="@color/text_primary"
             android:layout_marginHorizontal="8dp" />
@@ -65,17 +67,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Seconds"
-                android:textSize="14sp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/seconds"
                 android:textColor="@color/text_secondary"
-                android:layout_marginBottom="4dp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/etSeconds"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:inputType="number"
-                android:hint="0"
+                android:hint="@string/_0"
                 android:background="@drawable/edit_text_bg"
                 android:padding="12dp"
                 android:textSize="16sp"
@@ -88,9 +91,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Range: 15 seconds to 5 minutes"
-        android:textSize="12sp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/range_15_seconds_to_5_minutes"
         android:textColor="@color/text_secondary"
-        android:layout_marginTop="8dp" />
+        android:textSize="12sp" />
 
 </LinearLayout>

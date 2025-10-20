@@ -11,21 +11,25 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.content.Intent
+import com.example.wellnest_mobile_application.services.HabitTimerService
 import com.example.wellnest_mobile_application.R
 import com.example.wellnest_mobile_application.adapters.HabitAdapter
-import com.example.wellnest_mobile_application.data.SharedPrefManager
+import com.example.wellnest_mobile_application.database.DatabaseManager
 import com.example.wellnest_mobile_application.models.Habit
 import com.example.wellnest_mobile_application.models.HabitType
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputLayout
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class HabitsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: HabitAdapter
-    private lateinit var prefManager: SharedPrefManager
+    private lateinit var databaseManager: DatabaseManager
     private lateinit var fabAddHabit: FloatingActionButton
     private lateinit var progressDaily: ProgressBar
     private lateinit var tvProgress: TextView
@@ -37,9 +41,8 @@ class HabitsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_habits, container, false)
 
-        prefManager = SharedPrefManager(requireContext())
+        databaseManager = DatabaseManager(requireContext())
 
-        // Initialize views
         recyclerView = view.findViewById(R.id.recyclerHabits)
         fabAddHabit = view.findViewById(R.id.fabAddHabit)
         progressDaily = view.findViewById(R.id.progressDaily)
@@ -53,18 +56,29 @@ class HabitsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        val habits = prefManager.getHabits()
-
         adapter = HabitAdapter(
-            habits = habits,
+            habits = mutableListOf(), // Will be updated by database
             onEdit = { position -> showEditDialog(position) },
             onDelete = { position -> deleteHabit(position) },
             onToggle = { position, isChecked -> toggleHabit(position, isChecked) },
-            onStepsUpdate = { position, newSteps -> updateSteps(position, newSteps) }
+            onStepsUpdate = { position, newSteps -> updateSteps(position, newSteps) },
+            onTimeUpdate = { position, timeSpent -> updateTime(position, timeSpent) }
         )
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        
+        // Load habits from database
+        loadHabits()
+    }
+    
+    private fun loadHabits() {
+        lifecycleScope.launch {
+            databaseManager.habitRepository.getHabits().collect { habits ->
+                adapter.updateHabits(habits)
+                updateProgress()
+            }
+        }
     }
 
     private fun setupFab() {
@@ -86,7 +100,7 @@ class HabitsFragment : Fragment() {
         val rbSteps = dialogView.findViewById<RadioButton>(R.id.rbSteps)
         val tvInfoText = dialogView.findViewById<TextView>(R.id.tvInfoText)
 
-        // Toggle between time and steps input
+
         rbTime.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 tilDuration.visibility = View.VISIBLE
@@ -141,9 +155,10 @@ class HabitsFragment : Fragment() {
                     )
                 }
 
-                prefManager.addHabit(habit)
-                refreshHabits()
-                Toast.makeText(requireContext(), "✨ Habit '$name' created!", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch {
+                    databaseManager.habitRepository.addHabit(habit)
+                    Toast.makeText(requireContext(), "✨ Habit '$name' created!", Toast.LENGTH_SHORT).show()
+                }
             }
             .setNegativeButton("Cancel", null)
             .create()
@@ -152,7 +167,7 @@ class HabitsFragment : Fragment() {
     }
 
     private fun showEditDialog(position: Int) {
-        val habit = prefManager.getHabits()[position]
+        val habit = adapter.getHabitAt(position)
 
         val dialogView = LayoutInflater.from(requireContext())
             .inflate(R.layout.dialog_add_habit, null)
@@ -166,7 +181,7 @@ class HabitsFragment : Fragment() {
         val rbSteps = dialogView.findViewById<RadioButton>(R.id.rbSteps)
         val tvDialogTitle = dialogView.findViewById<TextView>(R.id.tvDialogTitle)
 
-        // Set current values
+
         tvDialogTitle.text = "Edit Habit"
         etHabitName.setText(habit.name)
 
@@ -185,7 +200,7 @@ class HabitsFragment : Fragment() {
             }
         }
 
-        // Disable type switching in edit mode
+
         rbTime.isEnabled = false
         rbSteps.isEnabled = false
 
@@ -210,9 +225,10 @@ class HabitsFragment : Fragment() {
                     }
                 }
 
-                prefManager.updateHabit(updatedHabit)
-                refreshHabits()
-                Toast.makeText(requireContext(), "✏️ Habit updated!", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch {
+                    databaseManager.habitRepository.updateHabit(updatedHabit)
+                    Toast.makeText(requireContext(), "✏️ Habit updated!", Toast.LENGTH_SHORT).show()
+                }
             }
             .setNegativeButton("Cancel", null)
             .create()
@@ -221,71 +237,80 @@ class HabitsFragment : Fragment() {
     }
 
     private fun deleteHabit(position: Int) {
-        val habit = prefManager.getHabits()[position]
+        val habit = adapter.getHabitAt(position)
 
         AlertDialog.Builder(requireContext())
             .setTitle("Delete Habit")
-            .setMessage("Are you sure you want to delete '${habit.name}'?")
             .setPositiveButton("Delete") { _, _ ->
-                prefManager.deleteHabit(habit.id)
-                refreshHabits()
+                lifecycleScope.launch {
+                    databaseManager.habitRepository.deleteHabit(habit.id)
+                }
             }
+            .setMessage("Are you sure you want to delete '${habit.name}'?")
             .setNegativeButton("Cancel", null)
             .show()
     }
 
     private fun toggleHabit(position: Int, isChecked: Boolean) {
-        val habit = prefManager.getHabits()[position]
-        prefManager.toggleHabitCompletion(habit.id, isChecked)
-        updateProgress()
+        val habit = adapter.getHabitAt(position)
+        lifecycleScope.launch {
+            databaseManager.habitRepository.updateHabitCompletion(habit.id, isChecked)
+        }
     }
 
     private fun updateSteps(position: Int, newSteps: Int) {
-        val habit = prefManager.getHabits()[position]
-        prefManager.updateHabitSteps(habit.id, newSteps)
-
-        // Refresh the specific item
-        val updatedHabit = prefManager.getHabitById(habit.id)
-        if (updatedHabit != null) {
-            adapter.updateHabit(position, updatedHabit)
+        val habit = adapter.getHabitAt(position)
+        lifecycleScope.launch {
+            databaseManager.habitRepository.updateHabitStepsDone(habit.id, newSteps)
         }
-
-        updateProgress()
     }
 
-    private fun refreshHabits() {
-        val habits = prefManager.getHabits()
-        adapter = HabitAdapter(
-            habits = habits,
-            onEdit = { position -> showEditDialog(position) },
-            onDelete = { position -> deleteHabit(position) },
-            onToggle = { position, isChecked -> toggleHabit(position, isChecked) },
-            onStepsUpdate = { position, newSteps -> updateSteps(position, newSteps) }
-        )
-        recyclerView.adapter = adapter
-        updateProgress()
+    private fun updateTime(position: Int, timeSpent: Int) {
+        val habit = adapter.getHabitAt(position)
+        val newTimeRemaining = habit.timeRemaining - timeSpent
+        val isCompleted = newTimeRemaining <= 0
+        
+        lifecycleScope.launch {
+            databaseManager.habitRepository.updateHabitTimeRemaining(habit.id, maxOf(0, newTimeRemaining))
+            if (isCompleted) {
+                databaseManager.habitRepository.updateHabitCompletion(habit.id, true)
+            }
+        }
     }
 
     private fun updateProgress() {
-        val completionRate = prefManager.getHabitCompletionRate()
-        progressDaily.progress = completionRate.toInt()
+        lifecycleScope.launch {
+            val completionRate = databaseManager.habitRepository.getHabitCompletionPercentage()
+            progressDaily.progress = completionRate.toInt()
 
-        val habits = prefManager.getHabits()
-        val completed = habits.count { it.isCompleted }
-        val total = habits.size
+            val habits = adapter.getHabits()
+            val completed = habits.count { it.isCompleted }
+            val total = habits.size
 
-        tvProgress.text = when {
-            total == 0 -> "Start building healthy habits!"
-            completed == total -> "🎉 All habits completed! Amazing!"
-            completionRate >= 75 -> "Almost there! $completed/$total completed"
-            completionRate >= 50 -> "Great progress! $completed/$total completed"
-            completed > 0 -> "Keep going! $completed/$total completed"
-            else -> "Let's get started! 0/$total completed"
+            tvProgress.text = when {
+                total == 0 -> "Start building healthy habits!"
+                completed == total -> "🎉 All habits completed! Amazing!"
+                completionRate >= 75 -> "Almost there! $completed/$total completed"
+                completionRate >= 50 -> "Great progress! $completed/$total completed"
+                completed > 0 -> "Keep going! $completed/$total completed"
+                else -> "Let's get started! 0/$total completed"
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        refreshHabits()
+        startTimerService()
+    }
+
+    private fun startTimerService() {
+        lifecycleScope.launch {
+            val habits = adapter.getHabits()
+            val activeTimeHabits = habits.filter { it.type == HabitType.TIME && !it.isCompleted }
+            if (activeTimeHabits.isNotEmpty()) {
+                val intent = Intent(requireContext(), HabitTimerService::class.java)
+                requireContext().startService(intent)
+            }
+        }
     }
 }

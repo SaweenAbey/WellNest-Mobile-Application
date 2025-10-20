@@ -44,8 +44,8 @@
 
             <ImageView
                 android:id="@+id/ivOnboarding"
-                android:layout_width="280dp"
-                android:layout_height="280dp"
+                android:layout_width="wrap_content"
+                android:layout_height="416dp"
                 android:contentDescription="@string/onboarding2_desc"
                 android:scaleType="fitCenter"
                 android:src="@drawable/onboard" />

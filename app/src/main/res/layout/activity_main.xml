@@ -44,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_semibold"
             android:text="@string/app_tagline"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
@@ -59,6 +60,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
+        android:fontFamily="@font/poppins_medium"
         android:text="@string/version_info"
         android:textColor="@color/text_secondary"
         android:textSize="12sp" />

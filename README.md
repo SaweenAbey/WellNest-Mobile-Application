@@ -1,1 +1,0 @@
-# WellNest-Mobile-Application

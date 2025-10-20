@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:background="@drawable/habit_card_background">
 
-        <!-- Top Section with Gradient Accent -->
+
         <LinearLayout
             android:id="@+id/topSection"
             android:layout_width="match_parent"
@@ -23,25 +23,26 @@
             android:background="@drawable/habit_card_top_gradient"
             android:padding="16dp">
 
-            <!-- Header Row -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
-                <!-- Habit Icon -->
+
                 <TextView
                     android:id="@+id/tvHabitIcon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:gravity="center"
-                    android:text="⏱️"
-                    android:textSize="24sp"
                     android:background="@drawable/circle_icon_background"
-                    android:elevation="2dp" />
+                    android:elevation="2dp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="center"
+                    android:text="@string/clock_icon"
+                    android:textSize="24sp" />
 
-                <!-- Habit Name and Type -->
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -53,7 +54,7 @@
                         android:id="@+id/tvHabitName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Morning Meditation"
+                        android:text="@string/morning_meditation"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary"
@@ -65,7 +66,7 @@
                         android:id="@+id/tvHabitType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Time-based"
+                        android:text="@string/time_based"
                         android:textSize="12sp"
                         android:textColor="@color/text_secondary"
                         android:fontFamily="@font/poppins"
@@ -83,24 +84,26 @@
                         android:id="@+id/btnEdit"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/ic_edit"
-                        android:tint="@color/accent_blue"
                         android:background="@drawable/circle_button_background"
-                        android:scaleType="centerInside"
+                        android:contentDescription="@string/image_desc"
+                        android:elevation="2dp"
                         android:padding="8dp"
-                        android:elevation="2dp" />
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_edit"
+                        android:tint="@color/accent_blue" />
 
                     <ImageButton
                         android:id="@+id/btnDelete"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/ic_delete"
-                        android:tint="@color/primary_dark"
-                        android:background="@drawable/circle_button_background"
-                        android:scaleType="centerInside"
-                        android:padding="8dp"
                         android:layout_marginStart="8dp"
-                        android:elevation="2dp" />
+                        android:background="@drawable/circle_button_background"
+                        android:contentDescription="@string/image_desc"
+                        android:elevation="2dp"
+                        android:padding="8dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_delete"
+                        android:tint="@color/primary_dark" />
 
                 </LinearLayout>
 
@@ -138,7 +141,7 @@
                     android:id="@+id/tvProgressPercentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0%"
+                    android:text="@string/_0"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="@color/primary_green"
@@ -167,7 +170,7 @@
                         android:id="@+id/tvCountdown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="30 min left"
+                        android:text="@string/_30_min_left"
                         android:textSize="14sp"
                         android:textColor="@color/text_primary"
                         android:fontFamily="@font/poppins_medium" />
@@ -176,7 +179,7 @@
                         android:id="@+id/tvSubStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Keep going!"
+                        android:text="@string/keep_going"
                         android:textSize="11sp"
                         android:textColor="@color/text_secondary"
                         android:fontFamily="@font/poppins"
@@ -184,7 +187,7 @@
 
                 </LinearLayout>
 
-                <!-- Step Control Buttons (for step-based habits) -->
+
                 <LinearLayout
                     android:id="@+id/stepControls"
                     android:layout_width="wrap_content"
@@ -197,12 +200,12 @@
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:text="-"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
                         android:padding="0dp"
+                        android:text="@string/minus"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
                         app:cornerRadius="12dp"
                         app:strokeColor="@color/primary_green"
                         app:strokeWidth="2dp" />
@@ -211,7 +214,7 @@
                         android:id="@+id/tvStepIncrement"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100"
+                        android:text="@string/_100"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary"
@@ -225,7 +228,7 @@
                         android:id="@+id/btnAddSteps"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:text="+"
+                        android:text="@string/pus"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:insetTop="0dp"
@@ -236,7 +239,59 @@
 
                 </LinearLayout>
 
-                <!-- Completion Checkbox -->
+
+                <LinearLayout
+                    android:id="@+id/timeControls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRemoveTime"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:text="@string/minus"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:padding="0dp"
+                        app:cornerRadius="12dp"
+                        app:strokeColor="@color/accent_blue"
+                        app:strokeWidth="2dp" />
+
+                    <TextView
+                        android:id="@+id/tvTimeIncrement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_5"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="@font/poppins_bold"
+                        android:layout_marginHorizontal="12dp"
+                        android:gravity="center"
+                        android:minWidth="50dp"
+                        android:layout_gravity="center_vertical" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddTime"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:text="@string/pus"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:padding="0dp"
+                        app:cornerRadius="12dp"
+                        app:backgroundTint="@color/accent_blue" />
+
+                </LinearLayout>
+
+
                 <CheckBox
                     android:id="@+id/cbHabitCompleted"
                     android:layout_width="wrap_content"

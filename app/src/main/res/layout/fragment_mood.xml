@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light">
+    android:background="@color/background_light"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +15,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="6dp"
             app:cardBackgroundColor="@color/primary_green">
@@ -29,10 +33,11 @@
                     android:id="@+id/tvMoodHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Daily Mood"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/daily_mood"
+                    android:textColor="@color/white"
                     android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white" />
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -45,44 +50,61 @@
                         android:id="@+id/btnPrevDay"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_chevron_left"
                         android:background="@drawable/circle_button_background"
-                        android:tint="@color/white"
-                        android:scaleType="centerInside" />
+                        android:contentDescription="@string/image_desc"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_chevron_left"
+                        android:tint="@color/white" />
 
                     <TextView
                         android:id="@+id/tvSelectedDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="2025-09-29"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:background="@drawable/capsule_background_light"
+                        android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
                         android:padding="8dp"
-                        android:background="@drawable/capsule_background_light" />
+                        android:text="@string/_2025_09_29"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
                     <ImageButton
                         android:id="@+id/btnNextDay"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_chevron_right"
+                        android:layout_marginStart="8dp"
                         android:background="@drawable/circle_button_background"
-                        android:tint="@color/white"
+                        android:contentDescription="@string/image_desc"
                         android:scaleType="centerInside"
-                        android:layout_marginStart="8dp" />
+                        android:src="@drawable/ic_chevron_right"
+                        android:tint="@color/white" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvMoodHint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tap date to pick from calendar"
-                    android:textSize="12sp"
-                    android:textColor="@color/primary_light"
-                    android:layout_marginTop="6dp" />
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/tap_date_to_pick_from_calendar"
+                    android:textColor="@color/splash_background"
+                    android:textSize="12sp" />
 
             </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Mood Chart Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/white">
+
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -94,17 +116,19 @@
             android:clipToPadding="false"
             android:paddingBottom="80dp" />
 
+
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddMood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:contentDescription="@string/image_desc"
+        android:src="@drawable/ic_add"
         app:backgroundTint="@color/primary_green"
-        app:tint="@color/white"
-        app:elevation="8dp" />
+        app:elevation="8dp"
+        app:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

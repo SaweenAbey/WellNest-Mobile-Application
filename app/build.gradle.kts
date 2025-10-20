@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -54,5 +55,12 @@ dependencies {
     implementation("io.coil-kt:coil-gif:2.7.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    implementation("androidx.room:room-runtime:2.8.2")
+    kapt("androidx.room:room-compiler:2.8.2")
+
+
+    implementation("androidx.room:room-ktx:2.8.2")
 
 }

@@ -4,16 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
+    android:background="@drawable/edittext_background"
     android:fillViewport="true"
     tools:context=".HabitTrackerActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
         android:padding="24dp">
 
         <!-- Logo Container -->
+
+        <!-- Login Card -->
+
         <LinearLayout
             android:id="@+id/logo_container"
             android:layout_width="wrap_content"
@@ -22,6 +26,7 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/login_card"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread">
@@ -29,8 +34,8 @@
             <!-- App Logo -->
             <ImageView
                 android:id="@+id/app_logo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="129dp"
+                android:layout_height="129dp"
                 android:background="@drawable/logo"
                 android:elevation="8dp"
                 android:padding="24dp" />
@@ -44,12 +49,11 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins"
                 android:text="@string/your_personal_wellness_companion"
-                android:textColor="#E8F5E8"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
-        <!-- Login Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/login_card"
             android:layout_width="0dp"
@@ -66,6 +70,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:elevation="@dimen/cardview_default_elevation"
                 android:orientation="vertical"
                 android:padding="32dp">
 
@@ -189,7 +194,7 @@
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_weight="1"
-                        android:background="@color/lightGray" />
+                        android:background="@color/black" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -204,7 +209,7 @@
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_weight="1"
-                        android:background="@color/lightGray" />
+                        android:background="@color/black" />
 
                 </LinearLayout>
 
@@ -246,7 +251,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins"
                 android:text="@string/don_t_have_an_account"
-                android:textColor="@color/white"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp" />
 
             <TextView
@@ -257,7 +262,7 @@
                 android:fontFamily="@font/poppins_bold"
                 android:padding="8dp"
                 android:text="@string/sign_up"
-                android:textColor="@color/white"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

@@ -7,16 +7,6 @@
     android:background="@color/white"
     android:fitsSystemWindows="true">
 
-    <!-- Toolbar -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary_green"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="Wellnest Wellness"
-        app:titleTextColor="@color/white" />
-
     <!-- Fragment Container -->
     <FrameLayout
         android:id="@+id/fragmentContainer"

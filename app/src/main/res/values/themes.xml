@@ -4,9 +4,11 @@
         <item name="colorPrimary">@color/primary_green</item>
         <item name="colorPrimaryContainer">@color/primary_light</item>
         <item name="colorSecondary">@color/accent_blue</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/primary_dark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
         <item name="android:navigationBarColor" tools:targetApi="l">@color/primary_dark</item>
         <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="l">true</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="l">true</item>
         <item name="materialCardViewStyle">@style/Widget.WellNest.Card</item>
         <item name="linearProgressIndicatorStyle">@style/Widget.WellNest.Progress</item>
     </style>

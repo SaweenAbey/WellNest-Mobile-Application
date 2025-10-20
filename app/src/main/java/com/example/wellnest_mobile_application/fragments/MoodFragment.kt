@@ -1,6 +1,7 @@
 package com.example.wellnest_mobile_application.fragments
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,20 +10,26 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wellnest_mobile_application.MoodActivity
 import com.example.wellnest_mobile_application.R
 import com.example.wellnest_mobile_application.adapters.MoodAdapter
-import com.example.wellnest_mobile_application.data.SharedPrefManager
+import com.example.wellnest_mobile_application.database.DatabaseManager
 import com.example.wellnest_mobile_application.models.MoodEntry
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.first
 
 class MoodFragment : Fragment() {
 
@@ -32,7 +39,7 @@ class MoodFragment : Fragment() {
     private lateinit var recycler: RecyclerView
     private lateinit var fab: FloatingActionButton
 
-    private lateinit var pref: SharedPrefManager
+    private lateinit var databaseManager: DatabaseManager
     private val items = mutableListOf<MoodEntry>()
     private lateinit var adapter: MoodAdapter
 
@@ -45,7 +52,7 @@ class MoodFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_mood, container, false)
 
-        pref = SharedPrefManager(requireContext())
+        databaseManager = DatabaseManager(requireContext())
 
         tvSelectedDate = view.findViewById(R.id.tvSelectedDate)
         btnPrevDay = view.findViewById(R.id.btnPrevDay)
@@ -63,12 +70,19 @@ class MoodFragment : Fragment() {
         tvSelectedDate.setOnClickListener { openDatePicker() }
         btnPrevDay.setOnClickListener { changeDay(-1) }
         btnNextDay.setOnClickListener { changeDay(1) }
-        fab.setOnClickListener { showAddMoodDialog() }
+        fab.setOnClickListener { 
+            val intent = Intent(requireContext(), MoodActivity::class.java)
+            startActivity(intent)
+        }
 
-        // Disable add for non-today dates
         updateFabEnabled()
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadForSelectedDate()
     }
 
     private fun changeDay(delta: Int) {
@@ -95,13 +109,16 @@ class MoodFragment : Fragment() {
     }
 
     private fun loadForSelectedDate() {
-        try {
-            items.clear()
-            val date = dateFormat.format(selectedCal.time)
-            items.addAll(pref.getMoodEntriesByDate(date))
-            adapter.notifyDataSetChanged()
-        } catch (e: Exception) {
-            e.printStackTrace()
+        lifecycleScope.launch {
+            try {
+                items.clear()
+                val date = dateFormat.format(selectedCal.time)
+                val moodEntries = databaseManager.moodEntryRepository.getMoodEntriesByDate(date)
+                items.addAll(moodEntries)
+                adapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -118,7 +135,6 @@ class MoodFragment : Fragment() {
             val moods = listOf("Happy", "Calm", "Sad", "Angry", "Excited", "Tired", "Anxious")
             spMood.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, moods)
 
-            // Auto-fill emoji when mood selected
             spMood.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: android.widget.AdapterView<*>, view: View?, position: Int, id: Long) {
                     val mood = moods[position]
@@ -147,7 +163,7 @@ class MoodFragment : Fragment() {
                         return@setPositiveButton
                     }
 
-                    // Only allow today
+
                     val todayStr = dateFormat.format(Calendar.getInstance().time)
                     val selectedDateStr = dateFormat.format(selectedCal.time)
                     if (todayStr != selectedDateStr) {
@@ -161,7 +177,7 @@ class MoodFragment : Fragment() {
 
                     val emojiMapped = mapEmojiForMood(mood, emoji)
 
-                    val existing = pref.getMoodEntries()
+                    val existing = runBlocking { databaseManager.moodEntryRepository.getMoodEntries().first() }
                     val newId = if (existing.isNotEmpty()) existing.maxOf { it.id } + 1 else 1
                     val entry = MoodEntry(
                         id = newId,
@@ -173,8 +189,10 @@ class MoodFragment : Fragment() {
                         durationMinutes = duration
                     )
 
-                    pref.saveMoodEntry(entry)
-                    loadForSelectedDate()
+                    lifecycleScope.launch {
+                        databaseManager.moodEntryRepository.saveMoodEntry(entry)
+                        loadForSelectedDate()
+                    }
                     dialog.dismiss()
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -221,12 +239,10 @@ class MoodFragment : Fragment() {
                 .setTitle("Delete Mood")
                 .setMessage("Do you delete mood?")
                 .setPositiveButton("Yes") { _, _ ->
-                    val all = pref.getMoodEntries().toMutableList()
-                    val newList = all.filter { it.id != target.id }
-                    val gson = com.google.gson.Gson()
-                    val prefs = requireContext().getSharedPreferences("WellnestAppData", android.content.Context.MODE_PRIVATE)
-                    prefs.edit().putString("mood_entries", gson.toJson(newList)).apply()
-                    loadForSelectedDate()
+                    lifecycleScope.launch {
+                        databaseManager.moodEntryRepository.deleteMoodEntryById(target.id)
+                        loadForSelectedDate()
+                    }
                 }
                 .setNegativeButton("No", null)
                 .show()
@@ -234,4 +250,5 @@ class MoodFragment : Fragment() {
             e.printStackTrace()
         }
     }
+
 }

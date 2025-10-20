@@ -1,70 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light">
+    android:background="@color/background_light"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingStart="20dp"
+        android:paddingTop="60dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="100dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="20dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="@color/white">
+            app:cardElevation="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/card_background"
+                android:elevation="@dimen/cardview_default_radius"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="24dp"
-                android:gravity="center_horizontal">
+                android:padding="24dp">
 
                 <ImageView
                     android:layout_width="96dp"
                     android:layout_height="96dp"
-                    android:src="@drawable/ic_avatar_circle"
-                    android:contentDescription="Profile avatar" />
+                    android:contentDescription="@string/profile_avatar"
+                    android:src="@drawable/ic_avatar_circle" />
 
                 <TextView
                     android:id="@+id/tvProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Your Name"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/your_name"
                     android:textColor="@color/text_primary"
-                    android:layout_marginTop="16dp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvProfileEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="you@example.com"
-                    android:textSize="14sp"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/you_example_com"
                     android:textColor="@color/text_secondary"
-                    android:layout_marginTop="6dp" />
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:layout_marginTop="16dp">
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/btnEditProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Edit Profile"
                         android:background="@drawable/button_outline_green"
-                        android:textColor="@color/primary_green" />
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="@string/edit_profile"
+                        android:textColor="@color/splash_background" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -74,36 +84,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="20dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="@color/white">
+            app:cardElevation="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/card_background"
+                android:elevation="@dimen/cardview_default_elevation"
                 android:orientation="vertical"
                 android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Settings"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/settings"
+                    android:textColor="@color/text_primary"
                     android:textSize="18sp"
-                    android:textColor="@color/text_primary" />
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="12dp">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Notifications"
+                        android:fontFamily="@font/poppins"
+                        android:text="@string/notifications"
                         android:textColor="@color/text_primary" />
+
                     <Switch
                         android:id="@+id/switchNotifications"
                         android:layout_width="wrap_content"
@@ -113,15 +129,18 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="8dp">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Hydration Reminder"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/hydration_reminder"
                         android:textColor="@color/text_primary" />
+
                     <Switch
                         android:id="@+id/switchHydration"
                         android:layout_width="wrap_content"
@@ -131,15 +150,18 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="8dp">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Dark Mode"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/dark_mode"
                         android:textColor="@color/text_primary" />
+
                     <Switch
                         android:id="@+id/switchDark"
                         android:layout_width="wrap_content"
@@ -150,9 +172,10 @@
                     android:id="@+id/btnExportData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Export Data"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/button_outline"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/export_data"
                     android:textColor="@color/text_primary" />
 
             </LinearLayout>
@@ -162,10 +185,50 @@
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log out"
+            android:layout_marginTop="4dp"
             android:background="@drawable/button_rounded_dark"
-            android:textColor="@color/white"
-            android:layout_marginTop="4dp" />
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/log_out"
+            android:textColor="@color/white" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="372dp"
+            android:layout_height="121dp">
+
+            <TextView
+                android:id="@+id/versionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="86dp"
+                android:layout_marginTop="58dp"
+                android:layout_marginEnd="85dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/version_inf1"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/versionText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="86dp"
+                android:layout_marginTop="84dp"
+                android:layout_marginEnd="85dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Develop By Sawee  ‍💻"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

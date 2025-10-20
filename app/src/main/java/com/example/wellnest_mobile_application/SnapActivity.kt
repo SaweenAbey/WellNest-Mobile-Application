@@ -17,7 +17,10 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.wellnest_mobile_application.data.SharedPrefManager
+import com.example.wellnest_mobile_application.database.DatabaseManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SnapActivity : AppCompatActivity() {
 
@@ -30,7 +33,7 @@ class SnapActivity : AppCompatActivity() {
     private lateinit var btnBack: Button
     private lateinit var btnCustomTime: Button
     
-    // Star and bed icons for animation
+
     private lateinit var star1: ImageView
     private lateinit var star2: ImageView
     private lateinit var star3: ImageView
@@ -43,22 +46,28 @@ class SnapActivity : AppCompatActivity() {
     private var countDownTimer: CountDownTimer? = null
     private var isRunning = false
     private var timeLeftInMillis = 0L
-    private var totalTimeInMillis = 60000L // Default 1 minute
+    private var totalTimeInMillis = 60000L
     private var mediaPlayer: MediaPlayer? = null
-    private lateinit var pref: SharedPrefManager
+    private lateinit var databaseManager: DatabaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // Make full screen
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+
+        window.statusBarColor = android.graphics.Color.TRANSPARENT
+        window.decorView.systemUiVisibility = 
+            android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+            android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
+                android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
         
         setContentView(R.layout.activity_snap)
         
-        pref = SharedPrefManager(this)
+        databaseManager = DatabaseManager(this)
         
         initializeViews()
         setupListeners()
@@ -76,7 +85,7 @@ class SnapActivity : AppCompatActivity() {
         btnBack = findViewById(R.id.btnBack)
         btnCustomTime = findViewById(R.id.btnCustomTime)
         
-        // Initialize star and bed icons
+
         star1 = findViewById(R.id.star1)
         star2 = findViewById(R.id.star2)
         star3 = findViewById(R.id.star3)
@@ -129,19 +138,25 @@ class SnapActivity : AppCompatActivity() {
     }
 
     private fun loadSettings() {
-        val savedDuration = pref.getSnapDuration()
-        if (savedDuration > 0) {
-            totalTimeInMillis = savedDuration.toLong()
-            timeLeftInMillis = totalTimeInMillis
+        CoroutineScope(Dispatchers.IO).launch {
+            val savedDuration = databaseManager.appSettingsRepository.getSnapDuration()
+            runOnUiThread {
+                if (savedDuration > 0) {
+                    totalTimeInMillis = savedDuration.toLong()
+                    timeLeftInMillis = totalTimeInMillis
+                }
+                
+                seekBarDuration.progress = (totalTimeInMillis / 1000).toInt()
+                updateCountdownText()
+                updateDurationText()
+            }
         }
-        
-        seekBarDuration.progress = (totalTimeInMillis / 1000).toInt()
-        updateCountdownText()
-        updateDurationText()
     }
 
     private fun saveSettings() {
-        pref.setSnapDuration((totalTimeInMillis / 1000).toInt())
+        CoroutineScope(Dispatchers.IO).launch {
+            databaseManager.appSettingsRepository.setSnapDuration((totalTimeInMillis / 1000).toInt())
+        }
     }
 
     private fun startTimer() {
@@ -176,7 +191,7 @@ class SnapActivity : AppCompatActivity() {
 
     private fun addTime() {
         if (!isRunning) {
-            totalTimeInMillis += 30000 // Add 30 seconds
+            totalTimeInMillis += 30000
             timeLeftInMillis = totalTimeInMillis
             seekBarDuration.progress = (totalTimeInMillis / 1000).toInt()
             updateCountdownText()
@@ -197,16 +212,10 @@ class SnapActivity : AppCompatActivity() {
 
     private fun playBackgroundMusic() {
         try {
-            // Create a simple tone for background music
-            // In a real app, you would load actual music files
+
             mediaPlayer?.release()
-            // For now, we'll create a simple MediaPlayer without a resource
             mediaPlayer = MediaPlayer()
             mediaPlayer?.isLooping = true
-            // Note: In a real implementation, you would load actual music files
-            // mediaPlayer?.setDataSource("path/to/music/file.mp3")
-            // mediaPlayer?.prepare()
-            // mediaPlayer?.start()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -214,11 +223,6 @@ class SnapActivity : AppCompatActivity() {
 
     private fun playCompletionSound() {
         try {
-            // For now, we'll just show a visual indication that the timer is complete
-            // In a real implementation, you would load actual sound files
-            // val completionPlayer = MediaPlayer.create(this, R.raw.completion_sound)
-            // completionPlayer?.start()
-            // completionPlayer?.setOnCompletionListener { it.release() }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -247,7 +251,7 @@ class SnapActivity : AppCompatActivity() {
         val etMinutes = dialogView.findViewById<EditText>(R.id.etMinutes)
         val etSeconds = dialogView.findViewById<EditText>(R.id.etSeconds)
 
-        // Pre-fill with current duration
+
         val currentMinutes = (totalTimeInMillis / 1000) / 60
         val currentSeconds = (totalTimeInMillis / 1000) % 60
         etMinutes.setText(currentMinutes.toString())
@@ -281,14 +285,14 @@ class SnapActivity : AppCompatActivity() {
     }
 
     private fun startBackgroundAnimations() {
-        // Animate stars with twinkling effect
+
         animateStar(star1, 2000, 0.3f, 0.9f)
         animateStar(star2, 1500, 0.2f, 0.8f)
         animateStar(star3, 2500, 0.4f, 1.0f)
         animateStar(star4, 1800, 0.3f, 0.7f)
         animateStar(star5, 2200, 0.5f, 1.0f)
         
-        // Animate bed icons with gentle floating effect
+
         animateBed(bed1, 3000, 10f)
         animateBed(bed2, 4000, 15f)
         animateBed(bed3, 3500, 12f)

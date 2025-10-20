@@ -35,7 +35,12 @@ class MoodAdapter(
         holder.tvMood.text = entry.mood
         holder.tvTime.text = entry.time
         holder.tvNote.text = entry.note
-        holder.tvDuration.text = if (entry.durationMinutes > 0) "${entry.durationMinutes} min" else ""
+        if (entry.durationMinutes > 0) {
+            holder.tvDuration.text = "${entry.durationMinutes} min"
+            holder.tvDuration.visibility = View.VISIBLE
+        } else {
+            holder.tvDuration.visibility = View.GONE
+        }
         holder.btnDelete.setOnClickListener {
             if (holder.adapterPosition != RecyclerView.NO_POSITION && holder.adapterPosition < items.size) {
                 onDelete(holder.adapterPosition)
