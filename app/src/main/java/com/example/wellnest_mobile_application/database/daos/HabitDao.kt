@@ -5,7 +5,8 @@ import com.example.wellnest_mobile_application.database.entities.HabitEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface HabitDao {
+interface
+HabitDao {
     
     @Query("SELECT * FROM habits ORDER BY createdAt DESC")
     fun getAllHabits(): Flow<List<HabitEntity>>
